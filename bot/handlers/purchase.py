@@ -67,7 +67,7 @@ async def do_pay(cb: CallbackQuery):
     now = int(time.time())
     order_id = f"DG-{now}-{uuid_mod.uuid4().hex[:8]}"
 
-    async with await get_db() as db:
+    async with get_db() as db:
         cur = await db.execute("SELECT id FROM users WHERE telegram_id = ?", (uid,))
         row = await cur.fetchone()
         if not row:
@@ -106,7 +106,7 @@ async def do_pay(cb: CallbackQuery):
 
 
 async def process_paid_key(order_id: str):
-    async with await get_db() as db:
+    async with get_db() as db:
         cur = await db.execute(
             "SELECT * FROM payments WHERE payment_id = ? AND status = 'pending'", (order_id,)
         )

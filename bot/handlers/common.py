@@ -19,7 +19,7 @@ async def cmd_start(message: Message):
     uid = message.from_user.id
     now = int(time.time())
 
-    async with await get_db() as db:
+    async with get_db() as db:
         existing = await db.execute("SELECT id FROM users WHERE telegram_id = ?", (uid,))
         row = await existing.fetchone()
         if not row:
@@ -43,7 +43,7 @@ async def cmd_start(message: Message):
 async def profile(message: Message):
     uid = message.from_user.id
 
-    async with await get_db() as db:
+    async with get_db() as db:
         cur = await db.execute("SELECT * FROM users WHERE telegram_id = ?", (uid,))
         user = await cur.fetchone()
         if not user:

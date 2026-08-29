@@ -17,7 +17,7 @@ async def admin_panel(message: Message):
     if message.from_user.id not in ADMIN_IDS:
         return
 
-    async with await get_db() as db:
+    async with get_db() as db:
         cur = await db.execute("SELECT COUNT(*) FROM users")
         count = (await cur.fetchone())[0]
 
@@ -43,7 +43,7 @@ async def admin_find(message: Message):
 
     query = message.text.strip().lstrip("@")
 
-    async with await get_db() as db:
+    async with get_db() as db:
         if query.isdigit():
             cur = await db.execute("SELECT * FROM users WHERE telegram_id = ?", (int(query),))
         else:
@@ -60,7 +60,7 @@ async def admin_find(message: Message):
     first_name = user[3]
     created = time.strftime("%d.%m.%Y", time.localtime(user[4]))
 
-    async with await get_db() as db:
+    async with get_db() as db:
         cur = await db.execute("SELECT COUNT(*) FROM keys WHERE user_id = ?", (user[0],))
         total_keys = (await cur.fetchone())[0]
         now = int(time.time())
@@ -113,7 +113,7 @@ async def admin_issue_key(cb: CallbackQuery):
     await cb.answer()
     await cb.message.edit_text("⏳ Создаю ключ...")
 
-    async with await get_db() as db:
+    async with get_db() as db:
         cur = await db.execute("SELECT id FROM users WHERE telegram_id = ?", (telegram_id,))
         row = await cur.fetchone()
         if not row:
@@ -169,7 +169,7 @@ async def admin_extend(cb: CallbackQuery):
     telegram_id = int(cb.data.split(":")[1])
     now = int(time.time())
 
-    async with await get_db() as db:
+    async with get_db() as db:
         cur = await db.execute("SELECT id FROM users WHERE telegram_id = ?", (telegram_id,))
         row = await cur.fetchone()
         if not row:
@@ -229,7 +229,7 @@ async def admin_do_extend(cb: CallbackQuery):
     await cb.answer()
     await cb.message.edit_text("⏳ Продлеваю...")
 
-    async with await get_db() as db:
+    async with get_db() as db:
         cur = await db.execute("SELECT key_uuid, plan_name, expires_at FROM keys WHERE id = ?", (key_id,))
         key = await cur.fetchone()
         if not key:
@@ -268,7 +268,7 @@ async def admin_show_keys(cb: CallbackQuery):
     telegram_id = int(cb.data.split(":")[1])
     now = int(time.time())
 
-    async with await get_db() as db:
+    async with get_db() as db:
         cur = await db.execute("SELECT id FROM users WHERE telegram_id = ?", (telegram_id,))
         row = await cur.fetchone()
         if not row:

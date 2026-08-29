@@ -18,7 +18,7 @@ def get_kb(user_id: int):
 async def my_keys(message: Message):
     uid = message.from_user.id
 
-    async with await get_db() as db:
+    async with get_db() as db:
         cur = await db.execute("SELECT id FROM users WHERE telegram_id = ?", (uid,))
         row = await cur.fetchone()
         if not row:
