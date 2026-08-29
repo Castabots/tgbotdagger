@@ -11,5 +11,3 @@ services:
       - ./data:/app/data
     env_file:
       - .env
-    environment:
-      - NODE_ENV=production

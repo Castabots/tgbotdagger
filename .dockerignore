@@ -1,9 +1,7 @@
-node_modules
-npm-debug.log
+__pycache__
+*.pyc
 .env
+data/*.db
 .git
 .gitignore
-README.md
-QUICKSTART.md
-data/*.db
-*.log
+node_modules
