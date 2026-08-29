@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  dagger-bot:
+    build: .
+    container_name: dagger-bot
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
